@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI Calculator", "UI Calculator\UI Calculator.csproj", "{CF7C31C3-605F-4135-8902-3F494447DF7D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF7C31C3-605F-4135-8902-3F494447DF7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF7C31C3-605F-4135-8902-3F494447DF7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF7C31C3-605F-4135-8902-3F494447DF7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF7C31C3-605F-4135-8902-3F494447DF7D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8212029A-B769-4189-B037-CEACF6FD5E1D}
+	EndGlobalSection
+EndGlobal
