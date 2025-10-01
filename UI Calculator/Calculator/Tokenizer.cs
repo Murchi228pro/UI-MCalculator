@@ -44,7 +44,7 @@ namespace Calculator
         {
             if (notEnd(offset))
             {
-                if (char.IsDigit(calcText[currentPos + offset]))
+                if (char.IsDigit(calcText[currentPos + offset]) || calcText[currentPos + offset] == ',')
                 {
                     return true;
                 }

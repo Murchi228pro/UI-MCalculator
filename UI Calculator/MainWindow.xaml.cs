@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -61,11 +62,15 @@ namespace UI_Calculator
         {
             try
             {
+
                 Tokenizer tokenizer = new Tokenizer(Calculation.Text);
                 Parser parser = new Parser(tokenizer.Tokens);
                 Calculation.Text = parser.Value.ToString();
             }
-            catch { }
+            catch
+            {
+
+            }
         }
     }
 }

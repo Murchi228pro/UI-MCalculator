@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using System.Runtime.ExceptionServices;
 using System.Linq;
+using System.Diagnostics;
 
 namespace Calculator
 {
@@ -12,7 +13,7 @@ namespace Calculator
         private int _size;
         private List<Token> _tokens;
 
-        public int Value;
+        public double Value { get; }
 
         public Parser(List<Token> tokens)
         {
@@ -23,7 +24,7 @@ namespace Calculator
             Value = Expr();
         }
 
-        private int Expr()
+        private double Expr()
         {
             if (Match(TokenType.EOF))
             {
@@ -32,9 +33,9 @@ namespace Calculator
             return Add();
         }
 
-        private int Add()
+        private double Add()
         {
-            int first = Mul();
+            double first = Mul();
             if (Match(TokenType.PLUS))
             {
                 return (first + Mul());
@@ -47,9 +48,9 @@ namespace Calculator
             return first;
         }
 
-        private int Mul()
+        private double Mul()
         {
-            int first = Unary();
+            double first = Unary();
 
             if (Match(TokenType.MUL))
             {
@@ -58,13 +59,13 @@ namespace Calculator
 
             if (Match(TokenType.DIV))
             {
-                return (first * Unary());
+                return (first / Unary());
             }
 
             return first;
         }
 
-        private int Unary()
+        private double Unary()
         {
             if (Match(TokenType.MINUS))
             {
@@ -76,11 +77,11 @@ namespace Calculator
         }
 
 
-        private int Primary()
+        private double Primary()
         {
             if (Match(TokenType.LPAR))
             {
-                int number = Expr();
+                double number = Expr();
                 Match(TokenType.RPAR);
                 if (Match(TokenType.LITERAL))
                 {
@@ -91,8 +92,8 @@ namespace Calculator
             else
             {
                 Match(TokenType.LITERAL);
-   
-                return int.Parse(_current.Value);
+                Debug.WriteLine(_current.Value);
+                return double.Parse(_current.Value);
             }
 
         }
@@ -101,7 +102,6 @@ namespace Calculator
         {
 
             _current = _tokens[_position];
-            Console.WriteLine(_current.Value);
             if (_current.Type == tokenType)
             {
                 _position++;
