@@ -55,6 +55,7 @@ namespace Calculator
             double result = Multiplicative();
             while (_currentToken.Type != TokenType.EOF)
             {
+                Debug.WriteLine(result);
                 if (Match(TokenType.PLUS))
                 {
                     result += Multiplicative();
@@ -62,7 +63,7 @@ namespace Calculator
                 }
                 if (Match(TokenType.MINUS))
                 {
-                    result -= result - Multiplicative();
+                    result -= Multiplicative();
                     continue;
                 }
                 break;
@@ -75,6 +76,7 @@ namespace Calculator
             double result = Unary();
             while (_currentToken.Type != TokenType.EOF)
             {
+
                 if (Match(TokenType.MUL))
                 {
                     result *= Unary();
@@ -92,15 +94,21 @@ namespace Calculator
 
         private double Unary()
         {
+            double result;
             if (Match(TokenType.MINUS))
             {
-                return -Primary();
+                result = -Primary();
             }
-            if (Match(TokenType.PLUS))
+            else if (Match(TokenType.PLUS))
             {
-                return Primary();
+                result = Primary();
+                
             }
-            return Primary();
+            else
+            {
+                result = Primary();
+            }
+            return result;
         }
 
         private double Primary()
