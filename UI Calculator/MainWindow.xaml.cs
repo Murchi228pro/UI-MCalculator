@@ -64,8 +64,8 @@ namespace UI_Calculator
             {
 
                 Tokenizer tokenizer = new Tokenizer(Calculation.Text);
-                Parser parser = new Parser(tokenizer.Tokens);
-                Calculation.Text = parser.Value.ToString();
+                ExpressionParser parser = new ExpressionParser(tokenizer.Tokens);
+                Calculation.Text = parser.Parse().ToString();
             }
             catch
             {

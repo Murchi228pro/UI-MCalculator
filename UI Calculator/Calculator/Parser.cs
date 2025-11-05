@@ -6,63 +6,88 @@ using System.Diagnostics;
 
 namespace Calculator
 {
-    public class Parser
+    public class ExpressionParser
     {
-        private int _position;
-        private Token _current;
-        private int _size;
-        private List<Token> _tokens;
+        private List<Token> ExprTokens;
 
-        public double Value { get; }
-
-        public Parser(List<Token> tokens)
+        private int _current = 0;
+        private int _lenght;
+        private Token _currentToken;
+        public ExpressionParser(List<Token> exprTokens)
         {
-            this._tokens = tokens;
-            this._size = _tokens.Count;
-
-            this._current = _tokens[0];
-            Value = Expr();
+            ExprTokens = exprTokens;
+            _lenght = exprTokens.Count();
         }
 
-        private double Expr()
+        public double Parse()
         {
-            if (Match(TokenType.EOF))
+            if (ExprTokens.First().Type == TokenType.EOF)
             {
                 return 0;
             }
-            return Add();
+            _currentToken = ExprTokens.First();
+            return Additive();
         }
 
-        private double Add()
-        {
-            double first = Mul();
-            if (Match(TokenType.PLUS))
-            {
-                return (first + Mul());
-            }
 
-            if (Match(TokenType.MINUS))
+        private bool Match(TokenType tokenType)
+        {
+            if (ExprTokens[_current].Type == TokenType.EOF)
             {
-                return (first - Mul());
+                return false;
             }
-            return first;
+            if (ExprTokens[_current].Type == tokenType)
+            {
+                _currentToken = ExprTokens[_current];
+                _current++;
+                return true;
+            }
+            return false;
         }
 
-        private double Mul()
+        private double GetPrimaryValue()
         {
-            double first = Unary();
+            return double.Parse(_currentToken.Value);
+        }
 
-            if (Match(TokenType.MUL))
+        private double Additive()
+        {
+            double result = Multiplicative();
+            while (_currentToken.Type != TokenType.EOF)
             {
-                return (first * Unary());
+                if (Match(TokenType.PLUS))
+                {
+                    result += Multiplicative();
+                    continue;
+                }
+                if (Match(TokenType.MINUS))
+                {
+                    result -= result - Multiplicative();
+                    continue;
+                }
+                break;
             }
+            return result;
+        }
 
-            if (Match(TokenType.DIV))
+        private double Multiplicative()
+        {
+            double result = Unary();
+            while (_currentToken.Type != TokenType.EOF)
             {
-                return (first / Unary());
+                if (Match(TokenType.MUL))
+                {
+                    result *= Unary();
+                    continue;
+                }
+                if (Match(TokenType.DIV))
+                {
+                    result /= Unary();
+                    continue;
+                }
+                break;
             }
-
-            return first;
+            return result;
         }
 
         private double Unary()
@@ -71,43 +96,27 @@ namespace Calculator
             {
                 return -Primary();
             }
-
-            Match(TokenType.PLUS);
+            if (Match(TokenType.PLUS))
+            {
+                return Primary();
+            }
             return Primary();
         }
 
-
         private double Primary()
         {
+            double result;
             if (Match(TokenType.LPAR))
             {
-                double number = Expr();
+                result = Additive();
                 Match(TokenType.RPAR);
-                if (Match(TokenType.LITERAL))
-                {
-                    return number * Primary();
-                }
-                return number;
             }
             else
             {
                 Match(TokenType.LITERAL);
-                Debug.WriteLine(_current.Value);
-                return double.Parse(_current.Value);
+                result = GetPrimaryValue();
             }
-
-        }
-
-        private bool Match(TokenType tokenType)
-        {
-
-            _current = _tokens[_position];
-            if (_current.Type == tokenType)
-            {
-                _position++;
-                return true;
-            }
-            return false;
+            return result;
         }
     }
 }
