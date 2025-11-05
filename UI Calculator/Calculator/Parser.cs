@@ -8,37 +8,37 @@ namespace Calculator
 {
     public class ExpressionParser
     {
-        private List<Token> ExprTokens;
+        private List<Token> _exprTokens;
 
         private int _current = 0;
         private int _lenght;
         private Token _currentToken;
         public ExpressionParser(List<Token> exprTokens)
         {
-            ExprTokens = exprTokens;
+            _exprTokens = exprTokens;
             _lenght = exprTokens.Count();
         }
 
         public double Parse()
         {
-            if (ExprTokens.First().Type == TokenType.EOF)
+            if (_exprTokens.First().Type == TokenType.EOF)
             {
                 return 0;
             }
-            _currentToken = ExprTokens.First();
+            _currentToken = _exprTokens.First();
             return Additive();
         }
 
 
         private bool Match(TokenType tokenType)
         {
-            if (ExprTokens[_current].Type == TokenType.EOF)
+            if (_exprTokens[_current].Type == TokenType.EOF)
             {
                 return false;
             }
-            if (ExprTokens[_current].Type == tokenType)
+            if (_exprTokens[_current].Type == tokenType)
             {
-                _currentToken = ExprTokens[_current];
+                _currentToken = _exprTokens[_current];
                 _current++;
                 return true;
             }
